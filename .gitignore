@@ -1,0 +1,16 @@
+# Ignore the environment file inside the backend folder
+studypilot-adk/.env
+
+# Ignore environment file if any exists in the root
+.env
+
+# Ignore virtual environments and cache files
+**/__pycache__/
+**/*.pyc
+.venv/
+.adk/
+studypilot-adk/temp_uploads/
+
+# Ignore frontend build and dependency folders
+studypilot-frontend/node_modules/
+studypilot-frontend/dist/
