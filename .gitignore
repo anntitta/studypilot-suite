@@ -3,6 +3,9 @@ studypilot-adk/.env
 
 # Ignore environment file if any exists in the root
 .env
+uploads/
+chroma_db/
+__pycache__/
 
 # Ignore virtual environments and cache files
 **/__pycache__/
@@ -14,3 +17,4 @@ studypilot-adk/temp_uploads/
 # Ignore frontend build and dependency folders
 studypilot-frontend/node_modules/
 studypilot-frontend/dist/
+
