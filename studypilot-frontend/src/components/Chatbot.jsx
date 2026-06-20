@@ -24,7 +24,7 @@ export default function Chatbot({ username, onLogout }) {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file && (file.type.startsWith("image/") || file.type === "application/pdf")) {
       setAttachedFile(file);
     } else if (file) {
       alert("🛸 Please upload an image file (PNG/JPG) for the space tiger to inspect!");
