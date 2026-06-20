@@ -1,4 +1,5 @@
 import os
+from vector_store import extract_and_index_pdf
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from router import central_coordinator_router
@@ -12,6 +13,35 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.post("/api/upload-pdf")
+async def upload_pdf(file: UploadFile = File(...)):
+
+    if not file.filename.lower().endswith(".pdf"):
+        return {
+            "success": False,
+            "message": "Only PDF files allowed."
+        }
+
+    upload_dir = "uploads"
+    os.makedirs(upload_dir, exist_ok=True)
+
+    file_path = os.path.join(upload_dir, file.filename)
+
+    with open(file_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    success = extract_and_index_pdf(
+        file_path=file_path,
+        file_id=file.filename
+    )
+
+    return {
+        "success": success,
+        "message": "PDF indexed successfully."
+        if success
+        else "PDF indexing failed."
+    }
 
 @app.post("/api/chat")
 async def handle_agent_request(

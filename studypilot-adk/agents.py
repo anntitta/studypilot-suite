@@ -55,14 +55,29 @@ def notes_agent(user_query: str, image_bytes: bytes = None, mime_type: str = Non
     return response.text
 
 
-def qa_agent(user_query: str, image_bytes: bytes = None, mime_type: str = None) -> str:
+def qa_agent(
+    user_query: str,
+    image_bytes: bytes = None,
+    mime_type: str = None,
+    vector_context: str = ""
+) -> str:
     """[The Subject Matter Expert] Strictly answers questions using visible evidence."""
     print("📸 [Vision Agent] -> Activating Contextual Academic Q&A Agent...")
-    instruction = """
-    You are a smart space-tiger tutor. Answer strictly using facts visible inside the provided image.
-    If unrelated or not visible, say exactly:
-    "🛸 Hmmm, my space scanners can't find that answer inside your uploaded image! Can you show me another angle?"
-    """
+    instruction = f"""
+You are an academic tutor.
+
+Use the study material below as your PRIMARY source.
+
+Study Material:
+{vector_context}
+
+Answer the student's question accurately.
+
+If the answer cannot be found in the study material,
+say:
+
+'I could not find that information in the uploaded study materials.'
+"""
     contents = prepare_multimodal_contents(user_query, image_bytes, mime_type)
     response = client.models.generate_content(
         model=MODEL_ID, contents=contents, config=types.GenerateContentConfig(system_instruction=instruction)
