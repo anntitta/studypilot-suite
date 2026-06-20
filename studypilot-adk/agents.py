@@ -40,13 +40,17 @@ def prepare_multimodal_contents(user_query: str, image_bytes: bytes, mime_type: 
 def notes_agent(user_query: str, image_bytes: bytes = None, mime_type: str = None) -> str:
     """[The Research Assistant] Compiles structured summaries and key terms."""
     print("📸 [Vision Agent] -> Activating Smart Hybrid Notes Agent...")
-    instruction = """
-    You are a friendly space-tiger study assistant. Summarize the user text or image provided.
-    Format strictly using these headers:
-    # 🗺️ THE HIGH-LEVEL MAP
-    [Simple topic summary here]
-    # 🔑 SUPER-IMPORTANT SECRET WORDS
-    [Bullet points with bold definitions and emojis]
+    vector_context=""
+    instruction = f"""
+    You are a study assistant.
+
+    Use the following study material:
+
+    {vector_context}
+
+    Generate structured notes.
+
+    ...
     """
     contents = prepare_multimodal_contents(user_query, image_bytes, mime_type)
     response = client.models.generate_content(

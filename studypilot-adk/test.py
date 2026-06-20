@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import our master router controller block function
-from agent import root_agent_router
+from agents import root_agent_router
 
 async def main():
     print("\n🚀 Triggering a REAL production SDK Agent Team request using environmental keys...")

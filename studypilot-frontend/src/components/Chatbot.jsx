@@ -390,7 +390,7 @@ export default function Chatbot({ username, onLogout }) {
 
               <div className="flex items-center bg-white border-2 border-slate-200 focus-within:border-indigo-500 rounded-xl p-2 gap-2 transition-all duration-300">
                 <label className="p-3 bg-slate-50 border border-slate-200 hover:bg-pink-50 rounded-xl cursor-pointer text-slate-500 flex items-center justify-center text-base shadow-sm active:scale-90" title="Upload an Image!">
-                  📎<input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                  📎<input type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileChange} />
                 </label>
                 <input 
                   type="text" className="flex-1 bg-transparent border-none outline-none text-xs text-slate-800 font-bold placeholder-slate-400 px-2"

@@ -1,5 +1,6 @@
 from config import client, MODEL_ID
 from agents import notes_agent, qa_agent, quiz_agent, explainer_agent, flashcard_agent
+from vector_store import query_academic_knowledge
 
 def central_coordinator_router(user_query: str, image_bytes: bytes = None, mime_type: str = None, active_tab: str = "notes") -> str:
     """
@@ -9,6 +10,11 @@ def central_coordinator_router(user_query: str, image_bytes: bytes = None, mime_
     """
     print(f"\n⚡ [Central Coordinator] Processing Query: '{user_query}' | Tab Context: {active_tab}")
     
+    retrieved_context = query_academic_knowledge(user_query)
+
+    print("\n📚 Retrieved Context:")
+    print(retrieved_context)
+
     query_lower = user_query.lower()
     
     # 🧠 1. QUIZ ENGAGEMENT ENGINE
@@ -35,6 +41,16 @@ def central_coordinator_router(user_query: str, image_bytes: bytes = None, mime_
     elif active_tab == "explainer":
         return explainer_agent(user_query, image_bytes, mime_type)
     elif active_tab == "qa":
-        return qa_agent(user_query, image_bytes, mime_type)
+        return qa_agent(
+            user_query,
+            image_bytes,
+            mime_type,
+            vector_context=retrieved_context
+        )
     else:
-        return notes_agent(user_query, image_bytes, mime_type)
+        return notes_agent(
+            user_query,
+            image_bytes,
+            mime_type,
+            vector_context=retrieved_context
+        )
